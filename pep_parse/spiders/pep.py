@@ -10,7 +10,6 @@ class PepSpider(scrapy.Spider):
     start_urls = ['https://peps.python.org/']
 
     def parse(self, response):
-
         all_peps = response.css('a.reference.external::attr(href)')
         for pep in all_peps:
             yield response.follow(pep, callback=self.parse_pep)

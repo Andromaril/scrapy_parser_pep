@@ -14,12 +14,14 @@ class PepParsePipeline:
                        'Draft': 0, 'Final': 0, 'Accepted': 0, }
 
     def process_item(self, item, spider):
-        status = item['status']
+        try:
+            status = item['status']
+        except KeyError:
+            print('Такого ключа нет!')
         self.counts[status] = self.counts.get(status) + 1
         return item
 
     def close_spider(self, spider):
-
         downloads_dir = BASE_DIR / 'results'
         now_date = dt.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
         file = f'status_summary_{now_date}.csv'
